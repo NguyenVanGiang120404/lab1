@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #container {
+            text-align: center;
+        }
+
+        .form {
+            width: 250px;
+            height: 150px;
+            border: 1px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form input {
+            margin-top: 5px;
+        }
+
+        #target {
+            list-style: none;
+            padding: 0;
+        }
+
+        #target li {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <ul id="target"></ul>
+        <form class="form" onsubmit="addUser(event)">
+            Name: <input type="text" id="name"> <br>
+            Gender: <input type="text" id="gender"> <br>
+            <button type="submit">Add User</button>
+        </form>
+    </div>
+
+    <script>
+        var user = [
+            {id: 1, name: "James Smith", gender: 1},
+            {id: 2, name: "Isla Brown", gender: 2},
+            {id: 3, name: "Amelia Davies", gender: 2},
+            {id: 4, name: "Jacob Evans", gender: 1},
+        ];
+
+        var target = document.querySelector('#target');
+        var nextId = user.length + 1; // Biến đếm để theo dõi id tiếp theo
+
+        // Hiển thị danh sách người dùng ban đầu
+        displayUsers();
+
+        // Hàm hiển thị danh sách người dùng
+        function displayUsers() {
+            target.innerHTML = ""; // Xóa nội dung cũ
+            user.forEach(function(person) {
+                var listItem = document.createElement('li');
+                listItem.textContent = person.id + '- ' + person.name + ', gender: ' + (person.gender === 1 ? 'Male' : 'Female');
+                target.appendChild(listItem);
+            });
+        }
+
+        // Hàm thêm người dùng
+        function addUser(event) {
+            event.preventDefault(); // Ngăn chặn sự kiện mặc định của form
+            var name = document.querySelector("#name").value;
+            var gender = document.querySelector("#gender").value;
+
+            // Kiểm tra xem các trường nhập có được điền đầy đủ hay không
+            if (name && gender) {
+                // Tăng biến đếm và sử dụng giá trị mới cho id
+                var newId = nextId++;
+                
+                // Thêm người dùng mới vào mảng
+                user.push({id: newId, name: name, gender: parseInt(gender)});
+                
+                // Hiển thị lại danh sách người dùng
+                displayUsers();
+
+                // Xóa giá trị trong các ô nhập
+                document.querySelector("#name").value = "";
+                document.querySelector("#gender").value = "";
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+    </script>
+</body>
+</html>
