@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Thông Tin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #resultList {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            background-color: #ff3333;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #cc0000;
+        }
+
+        #addForm {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        #newPerson {
+            flex: 1;
+            padding: 8px;
+            margin-right: 10px;
+        }
+
+        #addButton {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        #addButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script src="https://unpkg.com/unorm/lib/unorm.js"></script>
+</head>
+<body>
+    <h1>Quản lý Thông Tin</h1>
+
+    <!-- Hiển thị kết quả tìm kiếm -->
+    <ul id="resultList"></ul>
+
+    <!-- Form thêm người mới -->
+    <form id="addForm">
+        <input type="text" id="newPerson" placeholder="Nhập họ và tên mới">
+        <button type="button" id="addButton" onclick="addPerson()">Thêm</button>
+    </form>
+
+    <script>
+        // Mảng chứa tên ban đầu
+        let classRoom = [
+            "Nguyễn Văn Giang",
+            "Trần Hữu Đông",
+            "Phùng Thị Nhật Lệ",
+            "Bảo Long",
+            "Trần Văn Quân",
+            "Nguyễn Hữu Tài",
+            "Phạm Quỳnh Giang"
+        ];
+
+        // Hàm hiển thị thông tin
+        function displayResults(results) {
+            let resultList = document.getElementById("resultList");
+            resultList.innerHTML = "";
+
+            if (results.length > 0) {
+                results.forEach(function(person, index) {
+                    let listItem = document.createElement("li");
+                    listItem.textContent = person;
+                    
+                    // Tạo nút xóa
+                    let deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Xóa";
+
+                    // Thêm lắng nghe sự kiện cho nút xóa
+                    deleteButton.addEventListener("click", function() {
+                        deletePerson(index);
+                    });
+
+                    // Thêm nút xóa vào phần tử danh sách
+                    listItem.appendChild(deleteButton);
+
+                    // Thêm phần tử danh sách vào danh sách kết quả
+                    resultList.appendChild(listItem);
+                });
+            } else {
+                let noResultItem = document.createElement("li");
+                noResultItem.textContent = "Không có thông tin.";
+                resultList.appendChild(noResultItem);
+            }
+        }
+
+        // Hàm thêm người mới
+        function addPerson() {
+            let newPersonInput = document.getElementById("newPerson");
+            let newPerson = newPersonInput.value.trim();
+
+            if (newPerson !== "") {
+                classRoom.push(newPerson);
+                displayResults(classRoom);
+                resetAddForm();
+            }
+        }
+
+        // Hàm xóa người
+        function deletePerson(index) {
+            classRoom.splice(index, 1);
+            displayResults(classRoom);
+        }
+
+        // Hàm reset form thêm
+        function resetAddForm() {
+            document.getElementById("addForm").reset();
+        }
+
+        // Hiển thị ban đầu thông tin
+        displayResults(classRoom);
+
+    </script>
+</body>
+</html>
