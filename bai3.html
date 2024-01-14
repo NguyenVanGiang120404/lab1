@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Conversion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- Form để nhập chuỗi và chuyển đổi -->
+    <form action="" id="conversionForm" onsubmit="convertString(event)">
+        String: <input type="text" id="string"> 
+        <input type="submit" value="Convert">
+    </form>
+
+    <!-- Danh sách để hiển thị kết quả -->
+    <ul id="targetList"></ul>
+
+    <script>
+        // Hàm thực hiện chuyển đổi chuỗi khi biểu mẫu được gửi đi
+        function convertString(event) {
+            // Ngăn chặn sự kiện mặc định của biểu mẫu (tránh tải lại trang)
+            event.preventDefault();
+
+            // Lấy giá trị chuỗi đầu vào từ ô nhập văn bản
+            var inputString = document.querySelector('#string').value;
+
+            // Loại bỏ khoảng trắng và ký tự đặc biệt từ chuỗi
+            var cleanString = inputString.replace(/[^\w\s]/gi, '');
+
+            // Loại bỏ khoảng trắng từ chuỗi
+            cleanString = cleanString.replace(/\s+/g, '');
+
+            // Hiển thị chuỗi đã được xử lý
+            displayResult(cleanString);
+        }
+
+        // Hàm hiển thị kết quả trên trang
+        function displayResult(result) {
+            // Tạo một phần tử mới của danh sách
+            var listItem = document.createElement('li');
+            
+            // Đặt nội dung văn bản của phần tử danh sách
+            listItem.innerHTML = result;
+
+            // Thêm phần tử danh sách vào danh sách hiển thị
+            document.getElementById('targetList').appendChild(listItem);
+
+            // Xóa giá trị trong ô nhập để chuẩn bị cho lần nhập tiếp theo
+            document.getElementById('string').value = '';
+        }
+    </script>
+</body>
+</html>
